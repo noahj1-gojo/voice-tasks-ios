@@ -43,10 +43,16 @@ VoiceTasks/
     └── Color+Hex.swift          # Hex-Color Support
 ```
 
-## Letzte Änderungen (2026-05-05)
+## Letzte Änderungen (2026-05-06)
+- App Icon ersetzt: IMG_5406 (Schallwelle weiß auf Schwarz, 1024×1024 PNG)
+- RecordButton: alle Animationen entfernt, Button ist jetzt vollständig statisch
+- Header Banner: fixiert oben (außerhalb ScrollView im ZStack), 200pt — Inhalt scrollt mit `Color(.systemBackground)` Background drüber; Nav Bar transparent, Gear-Button weiß
+- Jitter-Fix: `.animation(nil, value: speech.isRecording)` auf TaskBoardView — Topic-Karten bewegen sich nicht mehr beim Record-Start
+- Nav bar: nur noch Zahnrad-Button, kein Titel
+
+## Änderungen (2026-05-05)
 - Komplettes Projekt von Grund auf erstellt (Swift/SwiftUI)
 - Manuelles Xcode-Projekt ohne Wizard (project.pbxproj von Hand)
-- App Icon: Glühbirne mit Sonne (Gemini generiert)
 - Bundle ID auf `de.noahj1.voicetasks` geändert (com.voicetasks.app war vergeben)
 - Simulator-Textfeld-Fallback eingebaut
 - Kategorie-Detailansicht mit offen/erledigt Trennung

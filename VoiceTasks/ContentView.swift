@@ -16,26 +16,47 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             ZStack(alignment: .bottom) {
+                // Fixed banner — never scrolls
+                VStack {
+                    Image("HeaderBanner")
+                        .resizable()
+                        .scaledToFill()
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 174)
+                        .clipped()
+                        .ignoresSafeArea(edges: .top)
+                    Spacer()
+                }
+
+                // Scrollable content slides over the banner
                 ScrollView {
                     VStack(spacing: 0) {
-                        if speech.isRecording && !speech.transcript.isEmpty {
-                            TranscriptBubble(text: speech.transcript)
-                                .padding(.horizontal, 16)
-                                .padding(.top, 12)
-                                .padding(.bottom, 8)
-                                .transition(.move(edge: .top).combined(with: .opacity))
-                        }
+                        Color.clear.frame(height: 180)
 
-                        TaskBoardView(
-                            items: items,
-                            onToggle: toggleItem,
-                            onDelete: deleteItem,
-                            onSelectType: { selectedType = $0 }
-                        )
-                            .padding(.top, 12)
-                            .padding(.bottom, 110)
+                        VStack(spacing: 0) {
+                            if speech.isRecording && !speech.transcript.isEmpty {
+                                TranscriptBubble(text: speech.transcript)
+                                    .padding(.horizontal, 16)
+                                    .padding(.top, 12)
+                                    .padding(.bottom, 8)
+                                    .transition(.move(edge: .top).combined(with: .opacity))
+                            }
+
+                            TaskBoardView(
+                                items: items,
+                                onToggle: toggleItem,
+                                onDelete: deleteItem,
+                                onSelectType: { selectedType = $0 }
+                            )
+                                .padding(.top, 12)
+                                .padding(.bottom, 110)
+                                .animation(nil, value: speech.isRecording)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .background(Color(UIColor.systemBackground))
                     }
                 }
+                .ignoresSafeArea(edges: .top)
 
                 if let error = errorMessage {
                     ErrorBanner(message: error) { errorMessage = nil }
@@ -46,12 +67,12 @@ struct ContentView: View {
 
                 bottomBar
             }
-            .navigationTitle("Voice Tasks")
-            .navigationBarTitleDisplayMode(.large)
+            .toolbarBackground(.hidden, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button { showSettings = true } label: {
                         Image(systemName: "gearshape")
+                            .foregroundStyle(.white)
                     }
                 }
             }
