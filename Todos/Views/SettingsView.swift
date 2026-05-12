@@ -87,13 +87,12 @@ struct SettingsView: View {
                         }
                         .padding(.vertical, 4)
 
-                        HStack(spacing: 12) {
+                        HStack(spacing: 0) {
+                            Spacer()
                             buttonPreview(recording: false)
+                            Spacer()
                             buttonPreview(recording: true)
                             Spacer()
-                            Text("Vorschau")
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
                         }
                     }
                 }
