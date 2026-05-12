@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AA00000000000000000000C1 /* VoiceTasksApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000000B1 /* VoiceTasksApp.swift */; };
+		AA00000000000000000000C1 /* TodosApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000000B1 /* TodosApp.swift */; };
 		AA00000000000000000000C2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000000B2 /* ContentView.swift */; };
 		AA00000000000000000000C3 /* TaskItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000000B3 /* TaskItem.swift */; };
 		AA00000000000000000000C4 /* SpeechService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000000B4 /* SpeechService.swift */; };
@@ -21,8 +21,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		AA00000000000000000000B0 /* VoiceTasks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VoiceTasks.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		AA00000000000000000000B1 /* VoiceTasksApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceTasksApp.swift; sourceTree = "<group>"; };
+		AA00000000000000000000B0 /* Todos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Todos.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA00000000000000000000B1 /* TodosApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodosApp.swift; sourceTree = "<group>"; };
 		AA00000000000000000000B2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		AA00000000000000000000B3 /* TaskItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskItem.swift; sourceTree = "<group>"; };
 		AA00000000000000000000B4 /* SpeechService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechService.swift; sourceTree = "<group>"; };
@@ -50,7 +50,7 @@
 		AA00000000000000000000A1 = {
 			isa = PBXGroup;
 			children = (
-				AA00000000000000000000D1 /* VoiceTasks */,
+				AA00000000000000000000D1 /* Todos */,
 				AA00000000000000000000A2 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -58,15 +58,15 @@
 		AA00000000000000000000A2 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				AA00000000000000000000B0 /* VoiceTasks.app */,
+				AA00000000000000000000B0 /* Todos.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		AA00000000000000000000D1 /* VoiceTasks */ = {
+		AA00000000000000000000D1 /* Todos */ = {
 			isa = PBXGroup;
 			children = (
-				AA00000000000000000000B1 /* VoiceTasksApp.swift */,
+				AA00000000000000000000B1 /* TodosApp.swift */,
 				AA00000000000000000000B2 /* ContentView.swift */,
 				AA00000000000000000000BC /* Assets.xcassets */,
 				AA00000000000000000000BB /* Info.plist */,
@@ -75,7 +75,7 @@
 				AA00000000000000000000D4 /* Views */,
 				AA00000000000000000000D5 /* Extensions */,
 			);
-			path = VoiceTasks;
+			path = Todos;
 			sourceTree = "<group>";
 		};
 		AA00000000000000000000D2 /* Models */ = {
@@ -117,9 +117,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		AA00000000000000000000A3 /* VoiceTasks */ = {
+		AA00000000000000000000A3 /* Todos */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = AA00000000000000000000F6 /* Build configuration list for PBXNativeTarget "VoiceTasks" */;
+			buildConfigurationList = AA00000000000000000000F6 /* Build configuration list for PBXNativeTarget "Todos" */;
 			buildPhases = (
 				AA00000000000000000000E1 /* Sources */,
 				AA00000000000000000000E2 /* Frameworks */,
@@ -129,9 +129,9 @@
 			);
 			dependencies = (
 			);
-			name = VoiceTasks;
-			productName = VoiceTasks;
-			productReference = AA00000000000000000000B0 /* VoiceTasks.app */;
+			name = Todos;
+			productName = Todos;
+			productReference = AA00000000000000000000B0 /* Todos.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -149,7 +149,7 @@
 					};
 				};
 			};
-			buildConfigurationList = AA00000000000000000000F5 /* Build configuration list for PBXProject "VoiceTasks" */;
+			buildConfigurationList = AA00000000000000000000F5 /* Build configuration list for PBXProject "Todos" */;
 			compatibilityVersion = "Xcode 15.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -162,7 +162,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				AA00000000000000000000A3 /* VoiceTasks */,
+				AA00000000000000000000A3 /* Todos */,
 			);
 		};
 /* End PBXProject section */
@@ -183,7 +183,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA00000000000000000000C1 /* VoiceTasksApp.swift in Sources */,
+				AA00000000000000000000C1 /* TodosApp.swift in Sources */,
 				AA00000000000000000000C2 /* ContentView.swift in Sources */,
 				AA00000000000000000000C3 /* TaskItem.swift in Sources */,
 				AA00000000000000000000C4 /* SpeechService.swift in Sources */,
@@ -326,7 +326,7 @@
 				DEVELOPMENT_TEAM = SF9JJ4QGWA;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = VoiceTasks/Info.plist;
+				INFOPLIST_FILE = Todos/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -351,7 +351,7 @@
 				DEVELOPMENT_TEAM = SF9JJ4QGWA;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = VoiceTasks/Info.plist;
+				INFOPLIST_FILE = Todos/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -369,7 +369,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		AA00000000000000000000F5 /* Build configuration list for PBXProject "VoiceTasks" */ = {
+		AA00000000000000000000F5 /* Build configuration list for PBXProject "Todos" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AA00000000000000000000F1 /* Debug */,
@@ -378,7 +378,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		AA00000000000000000000F6 /* Build configuration list for PBXNativeTarget "VoiceTasks" */ = {
+		AA00000000000000000000F6 /* Build configuration list for PBXNativeTarget "Todos" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AA00000000000000000000F3 /* Debug */,

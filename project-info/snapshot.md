@@ -1,14 +1,14 @@
-# Snapshot — Voice Tasks iOS
+# Snapshot — todos iOS
 _Dieses File immer zuerst lesen. Nach jeder Änderung aktualisieren._
 
 ## Aktueller Stand (2026-05-12)
-- Layout: Todos- und Termine-Karten füllen jetzt den gesamten verfügbaren Raum zwischen Banner und Mic-Button und teilen sich den Platz gleichmäßig (keine fixe Höhe von 220pt mehr)
-
-## Stand (2026-05-11)
-- App läuft auf echtem iPhone (iOS 17+)
-- Xcode Projekt manuell erstellt (kein SPM, kein CocoaPods)
-- Bundle ID: `de.noahj1.voicetasks`
-- GitHub: https://github.com/noahj1-gojo/voice-tasks-ios
+- App heißt "todos", Bundle ID `de.noahj1.todos`
+- Projekt-Ordner: `~/todos-ios/`, Xcode-Projekt: `Todos.xcodeproj`
+- GitHub: https://github.com/noahj1-gojo/todos-ios
+- Nur noch eine Kategorie (Todos), keine Appointments mehr
+- Flache Liste (offen oben, Erledigt-Sektion unten), kein Karten-Block, kein Tap-To-Detail mehr
+- Header: schlichter "todos." Text statt Banner-Image
+- Cleanup-Job beim Start löscht alte type≠"todos" Einträge
 
 ## Stack
 - **UI:** SwiftUI
@@ -19,60 +19,48 @@ _Dieses File immer zuerst lesen. Nach jeder Änderung aktualisieren._
 - **Min. iOS:** 17.0
 
 ## Features
-- Mic-Button → Aufnahme → Apple Speech Transkription → Mistral Kategorisierung
-- 2 Kategorien: Todos (oben), Termine (unten) — vertikal gestapelt
-- Karte antippen → Detailansicht (offen/erledigt getrennt)
-- Swipe-to-delete, Toggle done/undone
-- Dark/Light Mode automatisch (iOS System)
+- Mic-Button → Aufnahme → Apple Speech Transkription → Mistral Extraktion → Todos
+- Toggle done/undone, Swipe-to-delete
+- Dark/Light Mode automatisch
 - Simulator-Fallback: Textfeld statt Mic-Button
 
 ## Projektstruktur
 ```
-VoiceTasks/
-├── VoiceTasksApp.swift          # App entry, SwiftData Container
-├── ContentView.swift            # Hauptview, Orchestrierung
+Todos/
+├── TodosApp.swift               # App entry, SwiftData Container, Legacy-Cleanup
+├── ContentView.swift            # Hauptview, "todos." Header, Mic-Bar
 ├── Models/
-│   └── TaskItem.swift           # @Model + TaskType Enum
+│   └── TaskItem.swift           # @Model — keine TaskType-Enum mehr
 ├── Services/
 │   ├── SpeechService.swift      # AVAudioEngine + SFSpeechRecognizer
-│   └── MistralService.swift     # Mistral REST API
+│   └── MistralService.swift     # Mistral REST API, todos-only Prompt
 ├── Views/
-│   ├── TaskBoardView.swift      # 2×2 LazyVGrid
-│   ├── CategoryCardView.swift   # Karte + TaskRowView
-│   ├── CategoryDetailView.swift # Vollbild-Detailansicht
-│   ├── RecordButtonView.swift   # Animierter Mic-Button
+│   ├── TaskBoardView.swift      # Flache Liste, offen + Erledigt
+│   ├── CategoryCardView.swift   # Enthält jetzt nur noch TaskRowView (file name historisch)
+│   ├── RecordButtonView.swift   # Statischer Mic-Button
 │   └── SettingsView.swift       # API Key Eingabe
 └── Extensions/
-    └── Color+Hex.swift          # Hex-Color Support
+    └── Color+Hex.swift
 ```
 
-## Letzte Änderungen (2026-05-11)
-- Kategorien `goals` und `reminders` komplett entfernt (TaskType-Enum, MistralService Prompt + Parsing)
-- TaskBoardView: `LazyVGrid` (2 Spalten) → `VStack` (vertikal); Todos oben, Termine unten
-- Mistral-Prompt: Goals & Reminders fallen jetzt unter `todos`
-
-## Änderungen (2026-05-06)
-- App Icon ersetzt: IMG_5406 (Schallwelle weiß auf Schwarz, 1024×1024 PNG)
-- RecordButton: alle Animationen entfernt, Button ist jetzt vollständig statisch
-- Header Banner: fixiert oben (außerhalb ScrollView im ZStack), 200pt — Inhalt scrollt mit `Color(.systemBackground)` Background drüber; Nav Bar transparent, Gear-Button weiß
-- Jitter-Fix: `.animation(nil, value: speech.isRecording)` auf TaskBoardView — Topic-Karten bewegen sich nicht mehr beim Record-Start
-- Nav bar: nur noch Zahnrad-Button, kein Titel
-
-## Änderungen (2026-05-05)
-- Komplettes Projekt von Grund auf erstellt (Swift/SwiftUI)
-- Manuelles Xcode-Projekt ohne Wizard (project.pbxproj von Hand)
-- Bundle ID auf `de.noahj1.voicetasks` geändert (com.voicetasks.app war vergeben)
-- Simulator-Textfeld-Fallback eingebaut
-- Kategorie-Detailansicht mit offen/erledigt Trennung
-- GitHub Repo erstellt und gepusht
+## Letzte Änderungen (2026-05-12)
+- App von "Voice Tasks" auf "todos" umbenannt (Display Name, Bundle ID, Repo, Xcode-Projekt, Ordner)
+- Appointments-Kategorie raus (Mistral-Prompt, Parser, TaskType-Enum, UI)
+- Card-Layout durch flache Liste ersetzt
+- Banner-Bild durch "todos." Text-Header ersetzt
+- HeaderBanner + NavLogo Assets gelöscht
+- CategoryDetailView gelöscht
+- Cleanup-Hook beim App-Start (`.task`) entfernt alte Termine
+- Layout-Fix vom selben Tag: Cards füllten Screen (jetzt obsolet, da Liste statt Cards)
 
 ## Offene Punkte
 - [ ] Mistral → Claude wechseln (Anthropic API Key fehlt noch)
 - [ ] iCloud Sync (SwiftData CloudKit)
 - [ ] Siri Shortcuts / App Intents
-- [ ] Push Notifications für Reminders/Termine
+- [ ] Push Notifications für Todos mit Datum/Uhrzeit
 - [ ] Widget (Home Screen)
 - [ ] App Icon Badge für offene Todos
+- [ ] Views/CategoryCardView.swift in TaskRowView.swift umbenennen (kosmetisch)
 
 ## Signing
 - Team: Noah Jäger (Personal Team) — kostenlose Apple ID

@@ -1,7 +1,7 @@
-# Voice Tasks iOS — Vollständige Dokumentation
+# todos iOS — Vollständige Dokumentation
 
 ## Übersicht
-Native iPhone App, die Sprachnotizen aufnimmt, per Apple Speech Recognition transkribiert und via Mistral KI automatisch in 4 Kategorien einteilt. Komplett offline-fähig (Transkription on-device), nur die KI-Analyse braucht Internet.
+Native iPhone App, die Sprachnotizen aufnimmt, per Apple Speech Recognition transkribiert und via Mistral KI in eine Todo-Liste umwandelt. Komplett offline-fähig (Transkription on-device), nur die KI-Analyse braucht Internet.
 
 ---
 
@@ -12,7 +12,7 @@ Native iPhone App, die Sprachnotizen aufnimmt, per Apple Speech Recognition tran
 | UI Framework | SwiftUI | iOS 17+ Features (NavigationStack, @Query) |
 | Datenbank | SwiftData | Lokal, kein iCloud (noch) |
 | Sprachaufnahme | AVAudioEngine | Echtzeit-Audio-Buffer |
-| Transkription | SFSpeechRecognizer | Apple on-device, kein Datenschutzproblem |
+| Transkription | SFSpeechRecognizer | Apple on-device |
 | KI | Mistral API | `mistral-small-latest`, direkter REST Call |
 | Persistenz API Key | UserDefaults | Lokal gespeichert |
 
@@ -24,7 +24,7 @@ Native iPhone App, die Sprachnotizen aufnimmt, per Apple Speech Recognition tran
 ```swift
 @Model final class TaskItem {
     var id: UUID
-    var type: String        // "todos" | "appointments" | "goals" | "reminders"
+    var type: String        // immer "todos" (Feld bleibt für SwiftData-Stabilität)
     var title: String
     var taskDescription: String?
     var date: String?       // "YYYY-MM-DD" oder nil
@@ -33,8 +33,6 @@ Native iPhone App, die Sprachnotizen aufnimmt, per Apple Speech Recognition tran
     var createdAt: Date
 }
 ```
-
-`TaskType` Enum mit 4 Fällen — enthält displayName, SF Symbol, Apple System Color.
 
 ### Services
 
@@ -59,22 +57,19 @@ Native iPhone App, die Sprachnotizen aufnimmt, per Apple Speech Recognition tran
 - `@StateObject private var speech = SpeechService()`
 - Steuert Recording-Flow, Analyse, Error-Handling
 - `#if targetEnvironment(simulator)` → Textfeld statt Mic-Button
+- Header: schlichter "todos." Text
 
-**TaskBoardView** — 2×2 LazyVGrid mit `CategoryCardView` pro Typ
+**TaskBoardView** — Flache Liste aller Todos
+- Offene Items oben
+- "Erledigt" Sektion unten (mit Strikethrough)
+- Empty State
 
-**CategoryCardView** — Karte mit:
-- Tappbarem Header (chevron.right) → navigiert zur Detailansicht
-- Scrollbarer Taskliste (max 220pt Höhe)
-- Empty State mit Icon
+**TaskRowView** (in `Views/CategoryCardView.swift`)
+- Toggle-Button (Kreis → Häkchen), Title, optionale Description, optional Datum/Uhrzeit
+- Swipe-to-delete
 
-**CategoryDetailView** — Vollbild-Ansicht einer Kategorie
-- Eigener `@Query` mit `#Predicate` gefiltert nach type
-- Sections: "Offen" und "Erledigt"
-- `ContentUnavailableView` wenn leer
-
-**RecordButtonView** — Animierter Button
-- Blau (Idle) → Rot + pulsierender Ring (Recording) → Spinner (Processing)
-- `.spring(response: 0.35, dampingFraction: 0.6)` Animation
+**RecordButtonView** — Statischer Button
+- Blau (Idle) → Rot (Recording) → Spinner (Processing)
 
 ---
 
@@ -82,22 +77,23 @@ Native iPhone App, die Sprachnotizen aufnimmt, per Apple Speech Recognition tran
 
 ### Prompt
 ```
-You are a personal assistant. Extract all actionable items from this voice message transcript.
+You are a personal assistant. Extract every actionable item from this voice message transcript and return them as todos.
 Return ONLY valid JSON — no markdown, no explanation, nothing else.
 
-Categorize into:
-- "todos": tasks to do
-- "appointments": events at a specific time/date
-- "goals": longer-term life goals or aspirations
-- "reminders": things to remember or follow up on
+Everything counts as a todo: tasks, errands, goals, reminders, follow-ups, and appointments.
+If the user mentions a date or time, include it on the todo.
 
 JSON format:
 {
-  "todos": [{ "title": "...", "description": "..." }],
-  "appointments": [{ "title": "...", "description": "...", "date": "YYYY-MM-DD or null", "time": "HH:MM or null" }],
-  "goals": [{ "title": "...", "description": "..." }],
-  "reminders": [{ "title": "...", "description": "...", "date": "YYYY-MM-DD or null", "time": "HH:MM or null" }]
+  "todos": [{ "title": "...", "description": "...", "date": "YYYY-MM-DD or null", "time": "HH:MM or null" }]
 }
+
+Rules:
+- "title": short, imperative, in the language of the transcript.
+- "description": optional, only if it adds real context — never just rephrase the title.
+- "date" / "time": only set when the user actually said one; otherwise null.
+
+Transcript:
 ```
 
 ### API Call
@@ -117,7 +113,7 @@ Das Projekt wurde ohne Xcode Wizard erstellt — die `project.pbxproj` ist handg
 ```
 IPHONEOS_DEPLOYMENT_TARGET = 17.0
 SWIFT_VERSION = 5.0
-PRODUCT_BUNDLE_IDENTIFIER = de.noahj1.voicetasks
+PRODUCT_BUNDLE_IDENTIFIER = de.noahj1.todos
 TARGETED_DEVICE_FAMILY = 1  (iPhone only)
 CODE_SIGN_STYLE = Automatic
 GENERATE_INFOPLIST_FILE = NO  (eigene Info.plist)
@@ -126,17 +122,15 @@ GENERATE_INFOPLIST_FILE = NO  (eigene Info.plist)
 ### Info.plist Keys
 - `NSMicrophoneUsageDescription` — Pflicht für AVAudioSession
 - `NSSpeechRecognitionUsageDescription` — Pflicht für SFSpeechRecognizer
-- `CFBundleIdentifier` — `de.noahj1.voicetasks`
+- `CFBundleIdentifier` — `de.noahj1.todos`
+- `CFBundleDisplayName` — `todos`
 
 ---
 
-## Farben (Apple System Colors)
-| Kategorie | Farbe | Hex |
+## Farben
+| Element | Farbe | Hex |
 |---|---|---|
-| Todos | Apple Blue | #007AFF |
-| Termine | Apple Green | #34C759 |
-| Ziele | Apple Orange | #FF9500 |
-| Reminders | Apple Red | #FF3B30 |
+| Accent | Apple Blue | #007AFF |
 
 Dark Mode: `#1C1C1E` Cards, `#000000` Background (OLED)
 Light Mode: `#FFFFFF` Cards, `#F2F2F7` Background
@@ -163,6 +157,6 @@ Light Mode: `#FFFFFF` Cards, `#F2F2F7` Background
 - **Claude statt Mistral** — Anthropic API Key fehlt noch
 - **iCloud Sync** — SwiftData CloudKit Container
 - **Siri Shortcuts** — App Intents Framework
-- **Push Notifications** — für Termine und Reminders
+- **Push Notifications** — für Items mit Datum/Uhrzeit
 - **Home Screen Widget** — offene Todos anzeigen
 - **App Icon Badge** — Anzahl offener Todos
