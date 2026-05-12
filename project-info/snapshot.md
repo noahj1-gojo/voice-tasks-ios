@@ -1,7 +1,13 @@
 # Snapshot — todos iOS
 _Dieses File immer zuerst lesen. Nach jeder Änderung aktualisieren._
 
-## Aktueller Stand (2026-05-12)
+## Aktueller Stand (2026-05-12) — neueste Änderungen
+- Einstellungs-Gear von oben rechts in die Bottom Bar (rechts neben Mic-Button) verschoben
+- Mic-Button: Liquid Glass Design (ultraThinMaterial + Farb-Tint + Rim-Highlight + Glow-Shadow)
+- Settings: neue "Button-Design"-Sektion mit 6 Farbschemata (Blau, Lila, Grün, Pink, Orange, Glas)
+- Farbe wird in UserDefaults (`buttonColorKey`) gespeichert
+
+## Stand (2026-05-12)
 - App heißt "todos", Bundle ID `de.noahj1.todos`
 - Projekt-Ordner: `~/todos-ios/`, Xcode-Projekt: `Todos.xcodeproj`
 - GitHub: https://github.com/noahj1-gojo/todos-ios

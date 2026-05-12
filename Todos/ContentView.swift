@@ -7,10 +7,15 @@ struct ContentView: View {
     @Query(sort: \TaskItem.createdAt, order: .reverse) private var items: [TaskItem]
 
     @StateObject private var speech = SpeechService()
+    @AppStorage("buttonColorKey") private var buttonColorKey = ButtonColor.blue.rawValue
     @State private var isProcessing = false
     @State private var errorMessage: String?
     @State private var showSettings = false
     @State private var showPermissionAlert = false
+
+    private var buttonTint: Color {
+        (ButtonColor(rawValue: buttonColorKey) ?? .blue).color
+    }
 
     var body: some View {
         NavigationStack {
@@ -49,14 +54,6 @@ struct ContentView: View {
 
                 bottomBar
             }
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button { showSettings = true } label: {
-                        Image(systemName: "gearshape")
-                            .foregroundStyle(.primary)
-                    }
-                }
-            }
             .toolbarBackground(.hidden, for: .navigationBar)
             .sheet(isPresented: $showSettings) { SettingsView() }
             .alert("Berechtigung erforderlich", isPresented: $showPermissionAlert) {
@@ -92,14 +89,27 @@ struct ContentView: View {
             #if targetEnvironment(simulator)
             simulatorInput
             #else
-            HStack {
-                Spacer()
-                RecordButtonView(
-                    isRecording: speech.isRecording,
-                    isProcessing: isProcessing,
-                    action: handleRecordTap
-                )
-                Spacer()
+            ZStack {
+                HStack {
+                    Spacer()
+                    RecordButtonView(
+                        isRecording: speech.isRecording,
+                        isProcessing: isProcessing,
+                        tintColor: buttonTint,
+                        action: handleRecordTap
+                    )
+                    Spacer()
+                }
+                HStack {
+                    Spacer()
+                    Button { showSettings = true } label: {
+                        Image(systemName: "gearshape")
+                            .font(.system(size: 20, weight: .regular))
+                            .foregroundStyle(.secondary)
+                            .frame(width: 44, height: 44)
+                    }
+                    .padding(.trailing, 16)
+                }
             }
             .padding(.vertical, 14)
             #endif
