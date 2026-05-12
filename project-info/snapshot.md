@@ -1,7 +1,10 @@
 # Snapshot — Voice Tasks iOS
 _Dieses File immer zuerst lesen. Nach jeder Änderung aktualisieren._
 
-## Aktueller Stand (2026-05-05)
+## Aktueller Stand (2026-05-12)
+- Layout: Todos- und Termine-Karten füllen jetzt den gesamten verfügbaren Raum zwischen Banner und Mic-Button und teilen sich den Platz gleichmäßig (keine fixe Höhe von 220pt mehr)
+
+## Stand (2026-05-11)
 - App läuft auf echtem iPhone (iOS 17+)
 - Xcode Projekt manuell erstellt (kein SPM, kein CocoaPods)
 - Bundle ID: `de.noahj1.voicetasks`
@@ -17,7 +20,7 @@ _Dieses File immer zuerst lesen. Nach jeder Änderung aktualisieren._
 
 ## Features
 - Mic-Button → Aufnahme → Apple Speech Transkription → Mistral Kategorisierung
-- 4 Kategorien: Todos, Termine, Ziele, Reminders (2×2 Grid)
+- 2 Kategorien: Todos (oben), Termine (unten) — vertikal gestapelt
 - Karte antippen → Detailansicht (offen/erledigt getrennt)
 - Swipe-to-delete, Toggle done/undone
 - Dark/Light Mode automatisch (iOS System)
@@ -43,7 +46,12 @@ VoiceTasks/
     └── Color+Hex.swift          # Hex-Color Support
 ```
 
-## Letzte Änderungen (2026-05-06)
+## Letzte Änderungen (2026-05-11)
+- Kategorien `goals` und `reminders` komplett entfernt (TaskType-Enum, MistralService Prompt + Parsing)
+- TaskBoardView: `LazyVGrid` (2 Spalten) → `VStack` (vertikal); Todos oben, Termine unten
+- Mistral-Prompt: Goals & Reminders fallen jetzt unter `todos`
+
+## Änderungen (2026-05-06)
 - App Icon ersetzt: IMG_5406 (Schallwelle weiß auf Schwarz, 1024×1024 PNG)
 - RecordButton: alle Animationen entfernt, Button ist jetzt vollständig statisch
 - Header Banner: fixiert oben (außerhalb ScrollView im ZStack), 200pt — Inhalt scrollt mit `Color(.systemBackground)` Background drüber; Nav Bar transparent, Gear-Button weiß

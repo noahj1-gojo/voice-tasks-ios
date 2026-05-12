@@ -6,13 +6,8 @@ struct TaskBoardView: View {
     let onDelete: (TaskItem) -> Void
     let onSelectType: (TaskType) -> Void
 
-    private let columns = [
-        GridItem(.flexible(), spacing: 12),
-        GridItem(.flexible(), spacing: 12)
-    ]
-
     var body: some View {
-        LazyVGrid(columns: columns, spacing: 12) {
+        VStack(spacing: 12) {
             ForEach(TaskType.allCases, id: \.self) { type in
                 CategoryCardView(
                     type: type,
@@ -21,8 +16,10 @@ struct TaskBoardView: View {
                     onDelete: onDelete,
                     onSelect: { onSelectType(type) }
                 )
+                .frame(maxHeight: .infinity)
             }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding(.horizontal, 16)
     }
 }

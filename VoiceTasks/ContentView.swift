@@ -28,33 +28,31 @@ struct ContentView: View {
                     Spacer()
                 }
 
-                // Scrollable content slides over the banner
-                ScrollView {
+                // Content fills the area between banner and bottom bar
+                VStack(spacing: 0) {
+                    Color.clear.frame(height: 180)
+
                     VStack(spacing: 0) {
-                        Color.clear.frame(height: 180)
-
-                        VStack(spacing: 0) {
-                            if speech.isRecording && !speech.transcript.isEmpty {
-                                TranscriptBubble(text: speech.transcript)
-                                    .padding(.horizontal, 16)
-                                    .padding(.top, 12)
-                                    .padding(.bottom, 8)
-                                    .transition(.move(edge: .top).combined(with: .opacity))
-                            }
-
-                            TaskBoardView(
-                                items: items,
-                                onToggle: toggleItem,
-                                onDelete: deleteItem,
-                                onSelectType: { selectedType = $0 }
-                            )
+                        if speech.isRecording && !speech.transcript.isEmpty {
+                            TranscriptBubble(text: speech.transcript)
+                                .padding(.horizontal, 16)
                                 .padding(.top, 12)
-                                .padding(.bottom, 110)
-                                .animation(nil, value: speech.isRecording)
+                                .padding(.bottom, 8)
+                                .transition(.move(edge: .top).combined(with: .opacity))
                         }
-                        .frame(maxWidth: .infinity)
-                        .background(Color(UIColor.systemBackground))
+
+                        TaskBoardView(
+                            items: items,
+                            onToggle: toggleItem,
+                            onDelete: deleteItem,
+                            onSelectType: { selectedType = $0 }
+                        )
+                            .padding(.top, 12)
+                            .padding(.bottom, 100)
+                            .animation(nil, value: speech.isRecording)
                     }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(Color(UIColor.systemBackground))
                 }
                 .ignoresSafeArea(edges: .top)
 

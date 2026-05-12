@@ -19,6 +19,7 @@ struct CategoryCardView: View {
             Divider().padding(.horizontal, 14)
             content
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .background(cardBackground)
         .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
         .shadow(
@@ -72,7 +73,7 @@ struct CategoryCardView: View {
                     .font(.system(size: 12))
                     .foregroundStyle(.tertiary)
             }
-            .frame(maxWidth: .infinity)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
             .padding(.vertical, 22)
         } else {
             ScrollView {
@@ -85,7 +86,7 @@ struct CategoryCardView: View {
                     }
                 }
             }
-            .frame(maxHeight: 220)
+            .frame(maxHeight: .infinity)
         }
     }
 }

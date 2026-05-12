@@ -2,14 +2,12 @@ import SwiftUI
 import SwiftData
 
 enum TaskType: String, Codable, CaseIterable {
-    case todos, appointments, goals, reminders
+    case todos, appointments
 
     var displayName: String {
         switch self {
         case .todos: "Todos"
         case .appointments: "Termine"
-        case .goals: "Ziele"
-        case .reminders: "Reminders"
         }
     }
 
@@ -17,8 +15,6 @@ enum TaskType: String, Codable, CaseIterable {
         switch self {
         case .todos: Color(hex: "007AFF")
         case .appointments: Color(hex: "34C759")
-        case .goals: Color(hex: "FF9500")
-        case .reminders: Color(hex: "FF3B30")
         }
     }
 
@@ -26,8 +22,6 @@ enum TaskType: String, Codable, CaseIterable {
         switch self {
         case .todos: "checkmark.circle"
         case .appointments: "calendar"
-        case .goals: "star"
-        case .reminders: "bell"
         }
     }
 }

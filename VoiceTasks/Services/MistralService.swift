@@ -30,8 +30,6 @@ private struct MistralAPIResponse: Decodable {
 private struct ParsedItems: Decodable {
     let todos: [ParsedItem]?
     let appointments: [ParsedItem]?
-    let goals: [ParsedItem]?
-    let reminders: [ParsedItem]?
 
     struct ParsedItem: Decodable {
         let title: String
@@ -82,17 +80,13 @@ final class MistralService: ObservableObject {
     Return ONLY valid JSON — no markdown, no explanation, nothing else.
 
     Categorize into:
-    - "todos": tasks to do (e.g. "buy milk", "call dentist")
+    - "todos": tasks to do (e.g. "buy milk", "call dentist"). Also put goals, reminders, and follow-ups here.
     - "appointments": events at a specific time/date (e.g. "dentist on friday at 3pm")
-    - "goals": longer-term life goals or aspirations (e.g. "learn Spanish", "run a marathon")
-    - "reminders": things to remember or follow up on
 
     JSON format:
     {
       "todos": [{ "title": "...", "description": "..." }],
-      "appointments": [{ "title": "...", "description": "...", "date": "YYYY-MM-DD or null", "time": "HH:MM or null" }],
-      "goals": [{ "title": "...", "description": "..." }],
-      "reminders": [{ "title": "...", "description": "...", "date": "YYYY-MM-DD or null", "time": "HH:MM or null" }]
+      "appointments": [{ "title": "...", "description": "...", "date": "YYYY-MM-DD or null", "time": "HH:MM or null" }]
     }
 
     Only include categories that have items. Transcript:
@@ -152,8 +146,6 @@ final class MistralService: ObservableObject {
         }
         add(parsed.todos, type: "todos")
         add(parsed.appointments, type: "appointments")
-        add(parsed.goals, type: "goals")
-        add(parsed.reminders, type: "reminders")
         return items
     }
 }
