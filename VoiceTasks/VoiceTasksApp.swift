@@ -2,7 +2,7 @@ import SwiftUI
 import SwiftData
 
 @main
-struct VoiceTasksApp: App {
+struct TodosApp: App {
     let container: ModelContainer = {
         let schema = Schema([TaskItem.self])
         let config = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
@@ -16,7 +16,17 @@ struct VoiceTasksApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .task { cleanupLegacyAppointments() }
         }
         .modelContainer(container)
+    }
+
+    @MainActor
+    private func cleanupLegacyAppointments() {
+        let context = container.mainContext
+        let descriptor = FetchDescriptor<TaskItem>(predicate: #Predicate { $0.type != "todos" })
+        guard let stale = try? context.fetch(descriptor), !stale.isEmpty else { return }
+        stale.forEach(context.delete)
+        try? context.save()
     }
 }

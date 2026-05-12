@@ -11,50 +11,34 @@ struct ContentView: View {
     @State private var errorMessage: String?
     @State private var showSettings = false
     @State private var showPermissionAlert = false
-    @State private var selectedType: TaskType? = nil
 
     var body: some View {
         NavigationStack {
             ZStack(alignment: .bottom) {
-                // Fixed banner — never scrolls
-                VStack {
-                    Image("HeaderBanner")
-                        .resizable()
-                        .scaledToFill()
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 174)
-                        .clipped()
-                        .ignoresSafeArea(edges: .top)
-                    Spacer()
-                }
-
-                // Content fills the area between banner and bottom bar
                 VStack(spacing: 0) {
-                    Color.clear.frame(height: 180)
+                    header
 
-                    VStack(spacing: 0) {
-                        if speech.isRecording && !speech.transcript.isEmpty {
-                            TranscriptBubble(text: speech.transcript)
-                                .padding(.horizontal, 16)
-                                .padding(.top, 12)
-                                .padding(.bottom, 8)
-                                .transition(.move(edge: .top).combined(with: .opacity))
-                        }
+                    if speech.isRecording && !speech.transcript.isEmpty {
+                        TranscriptBubble(text: speech.transcript)
+                            .padding(.horizontal, 16)
+                            .padding(.top, 8)
+                            .padding(.bottom, 4)
+                            .transition(.move(edge: .top).combined(with: .opacity))
+                    }
 
+                    ScrollView {
                         TaskBoardView(
                             items: items,
                             onToggle: toggleItem,
-                            onDelete: deleteItem,
-                            onSelectType: { selectedType = $0 }
+                            onDelete: deleteItem
                         )
-                            .padding(.top, 12)
-                            .padding(.bottom, 100)
-                            .animation(nil, value: speech.isRecording)
+                        .padding(.top, 8)
+                        .padding(.bottom, 110)
+                        .animation(nil, value: speech.isRecording)
                     }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .background(Color(UIColor.systemBackground))
                 }
-                .ignoresSafeArea(edges: .top)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color(UIColor.systemBackground))
 
                 if let error = errorMessage {
                     ErrorBanner(message: error) { errorMessage = nil }
@@ -65,19 +49,16 @@ struct ContentView: View {
 
                 bottomBar
             }
-            .toolbarBackground(.hidden, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button { showSettings = true } label: {
                         Image(systemName: "gearshape")
-                            .foregroundStyle(.white)
+                            .foregroundStyle(.primary)
                     }
                 }
             }
+            .toolbarBackground(.hidden, for: .navigationBar)
             .sheet(isPresented: $showSettings) { SettingsView() }
-            .navigationDestination(item: $selectedType) { type in
-                CategoryDetailView(type: type, onToggle: toggleItem, onDelete: deleteItem)
-            }
             .alert("Berechtigung erforderlich", isPresented: $showPermissionAlert) {
                 Button("Einstellungen öffnen") {
                     if let url = URL(string: UIApplication.openSettingsURLString) {
@@ -91,6 +72,18 @@ struct ContentView: View {
         }
         .animation(.easeInOut(duration: 0.28), value: speech.isRecording)
         .animation(.easeInOut(duration: 0.28), value: errorMessage)
+    }
+
+    private var header: some View {
+        HStack {
+            Text("todos.")
+                .font(.system(size: 34, weight: .bold))
+                .foregroundStyle(.primary)
+            Spacer()
+        }
+        .padding(.horizontal, 20)
+        .padding(.top, 8)
+        .padding(.bottom, 12)
     }
 
     private var bottomBar: some View {

@@ -18,7 +18,6 @@
 		AA00000000000000000000C9 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000000B9 /* SettingsView.swift */; };
 		AA00000000000000000000CA /* Color+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000000BA /* Color+Hex.swift */; };
 		AA00000000000000000000CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000000BC /* Assets.xcassets */; };
-		AA00000000000000000000CC /* CategoryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000000BD /* CategoryDetailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,7 +34,6 @@
 		AA00000000000000000000BA /* Color+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Hex.swift"; sourceTree = "<group>"; };
 		AA00000000000000000000BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AA00000000000000000000BC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		AA00000000000000000000BD /* CategoryDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,7 +102,6 @@
 				AA00000000000000000000B7 /* CategoryCardView.swift */,
 				AA00000000000000000000B8 /* RecordButtonView.swift */,
 				AA00000000000000000000B9 /* SettingsView.swift */,
-				AA00000000000000000000BD /* CategoryDetailView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -196,7 +193,6 @@
 				AA00000000000000000000C8 /* RecordButtonView.swift in Sources */,
 				AA00000000000000000000C9 /* SettingsView.swift in Sources */,
 				AA00000000000000000000CA /* Color+Hex.swift in Sources */,
-				AA00000000000000000000CC /* CategoryDetailView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -337,7 +333,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = de.noahj1.voicetasks;
+				PRODUCT_BUNDLE_IDENTIFIER = de.noahj1.todos;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -362,7 +358,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = de.noahj1.voicetasks;
+				PRODUCT_BUNDLE_IDENTIFIER = de.noahj1.todos;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

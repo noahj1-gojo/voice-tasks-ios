@@ -29,7 +29,6 @@ private struct MistralAPIResponse: Decodable {
 
 private struct ParsedItems: Decodable {
     let todos: [ParsedItem]?
-    let appointments: [ParsedItem]?
 
     struct ParsedItem: Decodable {
         let title: String
@@ -76,20 +75,23 @@ final class MistralService: ObservableObject {
     }
 
     private let systemPrompt = """
-    You are a personal assistant. Extract all actionable items from this voice message transcript.
+    You are a personal assistant. Extract every actionable item from this voice message transcript and return them as todos.
     Return ONLY valid JSON — no markdown, no explanation, nothing else.
 
-    Categorize into:
-    - "todos": tasks to do (e.g. "buy milk", "call dentist"). Also put goals, reminders, and follow-ups here.
-    - "appointments": events at a specific time/date (e.g. "dentist on friday at 3pm")
+    Everything counts as a todo: tasks, errands, goals, reminders, follow-ups, and appointments.
+    If the user mentions a date or time, include it on the todo.
 
     JSON format:
     {
-      "todos": [{ "title": "...", "description": "..." }],
-      "appointments": [{ "title": "...", "description": "...", "date": "YYYY-MM-DD or null", "time": "HH:MM or null" }]
+      "todos": [{ "title": "...", "description": "...", "date": "YYYY-MM-DD or null", "time": "HH:MM or null" }]
     }
 
-    Only include categories that have items. Transcript:
+    Rules:
+    - "title": short, imperative, in the language of the transcript.
+    - "description": optional, only if it adds real context — never just rephrase the title.
+    - "date" / "time": only set when the user actually said one; otherwise null.
+
+    Transcript:
     """
 
     func analyze(transcript: String) async throws -> [TaskItem] {
@@ -145,7 +147,6 @@ final class MistralService: ObservableObject {
             }
         }
         add(parsed.todos, type: "todos")
-        add(parsed.appointments, type: "appointments")
         return items
     }
 }

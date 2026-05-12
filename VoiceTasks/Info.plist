@@ -3,13 +3,13 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleIdentifier</key>
-	<string>de.noahj1.voicetasks</string>
+	<string>de.noahj1.todos</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleName</key>
-	<string>Voice Tasks</string>
+	<string>todos</string>
 	<key>CFBundleDisplayName</key>
-	<string>Voice Tasks</string>
+	<string>todos</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>CFBundleShortVersionString</key>
@@ -21,9 +21,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Voice Tasks braucht Mikrofonzugriff, um deine Sprachnotizen aufzunehmen.</string>
+	<string>todos braucht Mikrofonzugriff, um deine Sprachnotizen aufzunehmen.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>Voice Tasks nutzt Spracherkennung, um deine Aufnahmen in Text umzuwandeln.</string>
+	<string>todos nutzt Spracherkennung, um deine Aufnahmen in Text umzuwandeln.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
