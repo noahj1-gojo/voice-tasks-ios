@@ -5,6 +5,7 @@ import Speech
 final class SpeechService: ObservableObject {
     @Published var isRecording = false
     @Published var transcript = ""
+    @Published var waveformLevels: [Float] = Array(repeating: 0.05, count: 50)
 
     private var audioEngine = AVAudioEngine()
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
@@ -60,6 +61,20 @@ final class SpeechService: ObservableObject {
         let format = inputNode.outputFormat(forBus: 0)
         inputNode.installTap(onBus: 0, bufferSize: 1024, format: format) { [weak self] buffer, _ in
             self?.recognitionRequest?.append(buffer)
+
+            guard let channelData = buffer.floatChannelData?[0] else { return }
+            let frameLength = Int(buffer.frameLength)
+            guard frameLength > 0 else { return }
+            let rms = sqrt((0..<frameLength).reduce(Float(0)) { $0 + channelData[$1] * channelData[$1] } / Float(frameLength))
+            let level = min(rms * 18.0, 1.0)
+
+            Task { @MainActor [weak self] in
+                guard let self else { return }
+                var levels = self.waveformLevels
+                levels.append(level)
+                if levels.count > 50 { levels.removeFirst() }
+                self.waveformLevels = levels
+            }
         }
         tapInstalled = true
 
@@ -87,6 +102,7 @@ final class SpeechService: ObservableObject {
         recognitionTask?.cancel()
         recognitionTask = nil
         isRecording = false
+        waveformLevels = Array(repeating: 0.05, count: 50)
         try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
     }
 }

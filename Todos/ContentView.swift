@@ -85,6 +85,13 @@ struct ContentView: View {
 
     private var bottomBar: some View {
         VStack(spacing: 0) {
+            if speech.isRecording {
+                WaveformView(levels: speech.waveformLevels, tintColor: buttonTint)
+                    .padding(.horizontal, 20)
+                    .padding(.top, 10)
+                    .padding(.bottom, 2)
+                    .transition(.opacity.combined(with: .move(edge: .bottom)))
+            }
             Divider()
             #if targetEnvironment(simulator)
             simulatorInput
@@ -245,5 +252,49 @@ struct ErrorBanner: View {
         .padding(.vertical, 10)
         .background(.regularMaterial)
         .clipShape(RoundedRectangle(cornerRadius: 13, style: .continuous))
+    }
+}
+
+// MARK: - Waveform
+
+struct WaveformView: View {
+    let levels: [Float]
+    let tintColor: Color
+
+    private let barWidth: CGFloat = 3
+    private let barSpacing: CGFloat = 2.5
+    private let maxHeight: CGFloat = 32
+    private let minHeight: CGFloat = 3
+
+    var body: some View {
+        GeometryReader { geo in
+            let totalBars = Int(geo.size.width / (barWidth + barSpacing))
+            let visibleLevels = paddedLevels(count: totalBars)
+
+            HStack(alignment: .center, spacing: barSpacing) {
+                ForEach(0..<totalBars, id: \.self) { i in
+                    let level = CGFloat(visibleLevels[i])
+                    Capsule()
+                        .fill(
+                            LinearGradient(
+                                colors: [tintColor, tintColor.opacity(0.5)],
+                                startPoint: .top,
+                                endPoint: .bottom
+                            )
+                        )
+                        .frame(width: barWidth, height: max(minHeight, level * maxHeight))
+                        .animation(.linear(duration: 0.06), value: level)
+                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+        }
+        .frame(height: maxHeight)
+    }
+
+    private func paddedLevels(count: Int) -> [Float] {
+        if levels.count >= count {
+            return Array(levels.suffix(count))
+        }
+        return Array(repeating: 0.05, count: count - levels.count) + levels
     }
 }
