@@ -8,7 +8,7 @@ struct TaskRowView: View {
     private let accent = Color(hex: "007AFF")
 
     var body: some View {
-        HStack(alignment: .top, spacing: 10) {
+        HStack(alignment: .center, spacing: 10) {
             Button { onToggle(item) } label: {
                 Image(systemName: item.done ? "checkmark.circle.fill" : "circle")
                     .font(.system(size: 20))
@@ -16,7 +16,6 @@ struct TaskRowView: View {
                     .contentTransition(.symbolEffect(.replace))
             }
             .buttonStyle(.plain)
-            .padding(.top, 1)
 
             VStack(alignment: .leading, spacing: 3) {
                 Text(item.title)

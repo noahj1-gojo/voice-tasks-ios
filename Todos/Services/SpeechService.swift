@@ -66,7 +66,9 @@ final class SpeechService: ObservableObject {
             let frameLength = Int(buffer.frameLength)
             guard frameLength > 0 else { return }
             let rms = sqrt((0..<frameLength).reduce(Float(0)) { $0 + channelData[$1] * channelData[$1] } / Float(frameLength))
-            let level = min(rms * 18.0, 1.0)
+            // logarithmic scaling: maps 0.0001–0.3 cleanly to 0.0–1.0
+            let db = rms > 0 ? (20 * log10(rms)) : -80
+            let level = Float(max(0, min(1, (db + 60) / 55)))
 
             Task { @MainActor [weak self] in
                 guard let self else { return }
